@@ -12,3 +12,4 @@ The purpose of the test is to reproduce one Aircall feature: __call forwarding__
 - [ ] If the caller presses `2`, he can drop a voicemail (you would like to hear this message later).
 - [ ] The call has to be logged in the database;
 - [ ] An activity feed, listing all calls, should be displayed: status of the call, duration, link to an audio file if the caller dropped a voicemail plus other info you have in mind.
+- [ ] Publish application to live site (Heroku).
