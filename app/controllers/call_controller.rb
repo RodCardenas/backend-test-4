@@ -12,7 +12,7 @@ class CallController < ApplicationController
   # POST ivr/welcome
   def ivr_welcome
     response = Twilio::TwiML::VoiceResponse.new
-    response.gather(input: 'dtmf', num_digits: '1', action: menu_path, method: 'get') do |gather|
+    response.gather(input: 'dtmf', num_digits: '1', action: menu_path, method: 'get', voice: 'woman', language: 'en') do |gather|
       gather.say('Please press 1 to call Rodrigo or 2 to leave him voicemail.')
     end
 
@@ -38,7 +38,8 @@ class CallController < ApplicationController
   def save_call_details
     details = call_params
     if details[:CallStatus] == "completed"
-      @call = Call.new(to: details[:To], from: details[:From])
+      @call = Call.new(to: details[:To], from: details[:From],
+        direction: details[:Direction], duration: details[:CallDuration])
       @call.save
       response = Twilio::TwiML::VoiceResponse.new
       response.hangup
@@ -71,7 +72,7 @@ class CallController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def call_params
-    params.permit(:To, :From, :CallStatus, :Duration, :CallDuration, :Digits)
+    params.permit(:To, :From, :CallStatus, :Direction, :CallDuration, :Digits)
   end
 
 end
