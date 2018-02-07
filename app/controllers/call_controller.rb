@@ -38,8 +38,10 @@ class CallController < ApplicationController
   def save_call_details
     details = call_params
     if details[:CallStatus] == "completed"
-      @call = Call.new(to: details[:To], from: details[:From],
-        direction: details[:Direction], duration: details[:CallDuration])
+      @call = Call.new(
+        to: details[:To], from: details[:From], direction: details[:Direction],
+        duration: details[:CallDuration], status: details[:CallStatus]
+      )
       @call.save
       response = Twilio::TwiML::VoiceResponse.new
       response.hangup
