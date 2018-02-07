@@ -1,8 +1,18 @@
 <h1 class='page-header'><%= @call.from %></h1>
 
+<% if @call.voicemail %>
+  <audio controls>
+    <source src='<%= @call.voicemail.link %>' type="audio/mpeg">
+  </audio>
+<% end %>
+
 <h5><%= @call.direction %></h5>
 <h5><%= @call.created_at %></h5>
-<h5>Call Lasted: <%= @call.duration %> seconds</h5>
-<h5>Last Call Status: <%= @call.status %></h5>
+<% if @call.status %>
+  <h5>Last Call Status: <%= @call.status %></h5>
+<% end %>
+<% if @call.duration %>
+  <h5>Call Lasted: <%= @call.duration %> seconds</h5>
+<% end %>
 
 <li><a class='button' href="<%= all_calls_path %>">All calls</a></li>

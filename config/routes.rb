@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   #receive callback from twillio on call status changes
   post 'status' => 'call#save_call_details'
 
+  #receive callback from twillio containing voicemail details
+  # post 'voicemail' => 'call#save_voicemail'
+
   # webhook for your Twilio number
   match 'ivr/welcome' => 'call#ivr_welcome', via: [:get, :post], as: 'welcome'
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180207060926) do
+ActiveRecord::Schema.define(version: 20180207072252) do
 
   create_table "calls", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -22,15 +22,9 @@ ActiveRecord::Schema.define(version: 20180207060926) do
     t.text "status"
   end
 
-  create_table "calls_voicemails", id: false, force: :cascade do |t|
-    t.integer "call_id", null: false
-    t.integer "voicemail_id", null: false
-    t.index ["call_id", "voicemail_id"], name: "index_calls_voicemails_on_call_id_and_voicemail_id"
-    t.index ["voicemail_id", "call_id"], name: "index_calls_voicemails_on_voicemail_id_and_call_id"
-  end
-
   create_table "voicemails", force: :cascade do |t|
     t.text "link", null: false
+    t.integer "call_id"
   end
 
 end

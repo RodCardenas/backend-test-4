@@ -4,8 +4,17 @@
   <% @calls.each do |call| %>
     <li>
       <a href="<%= call_details_path(call) %>"><p><%= call.from %></p></a>
-      <div>Last Call Status: <%= call.status %></div>
-      <div>Call Lasted: <%= call.duration %> seconds</div>
+      <% if call.status %>
+        <div>Last Call Status: <%= call.status %></div>
+      <% end %>
+      <% if call.duration %>
+        <div>Call Lasted: <%= call.duration %> seconds</div>
+      <% end %>
+      <% if call.voicemail %>
+        <audio controls>
+          <source src='<%= call.voicemail.link %>' type="audio/mpeg">
+        </audio>
+      <% end %>
     </li>
   <% end %>
 </ul>
