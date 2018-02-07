@@ -1,15 +1,19 @@
 require 'twilio-ruby'
 
-class CallsController < ApplicationController
+class CallController < ApplicationController
   def index
-    render plain: "Call Rodrigo @ +1 (346) 214-5383."
+    @calls = Call.all()
+  end
+
+  def show
+    @call = Call.find(params[:id])
   end
 
   # POST ivr/welcome
   def ivr_welcome
     response = Twilio::TwiML::VoiceResponse.new
     response.gather(input: 'dtmf', num_digits: '1', action: menu_path, method: 'get') do |gather|
-      gather.say('Please press 1 to call Rodrigo or 2 to leave a voicemail.')
+      gather.say('Please press 1 to call Rodrigo or 2 to leave him voicemail.')
     end
 
     render xml: response.to_s
@@ -17,7 +21,7 @@ class CallsController < ApplicationController
 
   # GET ivr/selection
   def menu_selection
-    user_selection = params[:Digits]
+    user_selection = call_params[:Digits]
 
     case user_selection
     when "1"
@@ -29,6 +33,17 @@ class CallsController < ApplicationController
       twiml_say(@output)
     end
 
+  end
+
+  def save_call_details
+    details = call_params
+    if details[:CallStatus] == "completed"
+      @call = Call.new(to: details[:To], from: details[:From])
+      @call.save
+      response = Twilio::TwiML::VoiceResponse.new
+      response.hangup
+      render xml: response.to_s
+    end
   end
 
   private
@@ -53,4 +68,10 @@ class CallsController < ApplicationController
 
     render xml: response.to_s
   end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def call_params
+    params.permit(:To, :From, :CallStatus, :Duration, :CallDuration, :Digits)
+  end
+
 end

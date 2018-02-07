@@ -10,11 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170719183956) do
+ActiveRecord::Schema.define(version: 20180207041452) do
 
   create_table "calls", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "from", null: false
+    t.text "to", null: false
+  end
+
+  create_table "calls_voicemails", id: false, force: :cascade do |t|
+    t.integer "call_id", null: false
+    t.integer "voicemail_id", null: false
+    t.index ["call_id", "voicemail_id"], name: "index_calls_voicemails_on_call_id_and_voicemail_id"
+    t.index ["voicemail_id", "call_id"], name: "index_calls_voicemails_on_voicemail_id_and_call_id"
+  end
+
+  create_table "voicemails", force: :cascade do |t|
+    t.text "link", null: false
   end
 
 end

@@ -1,0 +1,7 @@
+<h1 class='page-header'>Calls</h1>
+
+<ul class='main-list'>
+  <% @calls.each do |call| %>
+    <li><a href="<%= call_details_path(call) %>"><p><%= call.from %></p></a></li>
+  <% end %>
+</ul>
