@@ -39,7 +39,7 @@ class CallController < ApplicationController
     details = call_params
     @call = Call.new(
       to: details[:To], from: details[:From], direction: details[:Direction],
-      duration: details[:CallDuration], status: details[:DialCallStatus]
+      duration: details[:DialCallDuration], status: details[:DialCallStatus]
     )
     @call.save
     if details[:RecordingUrl]
@@ -87,7 +87,7 @@ class CallController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white-list through.
   def call_params
-    params.permit(:To, :From, :DialCallStatus, :Direction, :CallDuration, :Digits,
+    params.permit(:To, :From, :DialCallStatus, :Direction, :DialCallDuration, :Digits,
       :RecordingUrl)
   end
 
